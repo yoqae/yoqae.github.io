@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schwarz-Blauer Hintergrund mit Panel</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 0, 255, 0.5), rgba(0, 0, 0, 0.8));
+            animation: glow 5s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .top-panel {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 10;
+        }
+
+        .top-panel button {
+            background-color: #000;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .top-panel button:hover {
+            background-color: #333;
+        }
+
+        .content-panel {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0);
+            width: 80%;
+            max-height: 80%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border: 2px solid #444;
+            text-align: center;
+            transition: transform 0.5s ease-in-out;
+            z-index: 5;
+            overflow-y: auto;
+        }
+
+        .content-panel.active {
+            transform: translateX(-50%) scaleY(1);
+        }
+
+        .content-panel p {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 4px #000;
+            margin: 20px 0;
+        }
+
+        .scrolling-text {
+            position: relative;
+            overflow: hidden;
+            height: 40px;
+            margin-top: 20px;
+        }
+
+        .scrolling-text div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            line-height: 40px;
+            white-space: nowrap;
+            will-change: transform;
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .scrolling-text span {
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .highlight {
+            color: #00f;
+            text-shadow: 0 0 5px rgba(0, 0, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="top-panel">
+        <button id="homeBtn">Home</button>
+        <button id="contactBtn">Contact</button>
+        <button id="creditsBtn">Credits</button>
+    </div>
+    <div id="homePanel" class="content-panel active">
+        <p class="highlight">Scripten</p>
+        <p>Ich bin erfahren im Scripten mit verschiedenen Programmiersprachen und Frameworks, um dynamische und effiziente Lösungen zu entwickeln.</p>
+        <p class="highlight">UI Design</p>
+        <p>Mein Fokus liegt auf der Erstellung von intuitiven und ästhetisch ansprechenden Benutzeroberflächen, die eine positive Nutzererfahrung gewährleisten.</p>
+        <p class="highlight">Modeling</p>
+        <p>Ich habe umfangreiche Erfahrung im 3D-Modellieren und kann detailreiche und realistische Modelle für verschiedenste Anwendungen erstellen.</p>
+    </div>
+    <div id="contentPanel" class="content-panel">
+        <p>Ich bin ein Roblox Developer der spezialisiert auf UI Design und Scripten ist</p>
+        <div class="scrolling-text">
+            <div>
+                <span>Scripten</span>
+                <span>Modeling</span>
+                <span>UI Design</span>
+                <span>Scripten</span>
+                <span>Modeling</span>
+                <span>UI Design</span>
+            </div>
+        </div>
+    </div>
+    <div id="creditsPanel" class="content-panel">
+        <p>Diese Website wurde von mir selbst erstellt</p>
+    </div>
+
+    <script>
+        document.getElementById('homeBtn').addEventListener('click', function() {
+            showPanel('homePanel');
+        });
+
+        document.getElementById('contactBtn').addEventListener('click', function() {
+            showPanel('contentPanel');
+        });
+
+        document.getElementById('creditsBtn').addEventListener('click', function() {
+            showPanel('creditsPanel');
+        });
+
+        function showPanel(panelId) {
+            var panels = document.querySelectorAll('.content-panel');
+            panels.forEach(function(panel) {
+                panel.classList.remove('active');
+            });
+            document.getElementById(panelId).classList.add('active');
+        }
+
+        // Show home panel by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showPanel('homePanel');
+        });
+    </script>
+</body>
+</html>
